@@ -166,7 +166,7 @@ Port-Forward to [Prom-UI](http://localhost:9090/targets?search=) and check targe
 ```bash
 kubectl port-forward svc/prometheus-operated 9090 
 ```
-![targets.png](target.png)  
+![targets.png](targets.png)  
 
 Now, you can take down the deployment for blue to see the PrometheusRule trigger.
 
