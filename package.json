@@ -1,0 +1,33 @@
+{
+  "name": "bb-prometheus",
+  "version": "0.0.1",
+  "description": "Creates ServiceMonitors and PrometheusRules based on labels.",
+  "keywords": [
+    "pepr",
+    "k8s",
+    "policy-engine",
+    "pepr-module",
+    "security"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "pepr": {
+    "name": "bb-prometheus",
+    "uuid": "92f89663-d095-5831-8069-e63aa31b3e0e",
+    "onError": "audit",
+    "alwaysIgnore": {
+      "namespaces": [],
+      "labels": []
+    }
+  },
+  "scripts": {
+    "k3d-setup": "k3d cluster delete pepr-dev && k3d cluster create pepr-dev --k3s-arg '--debug@server:0'"
+  },
+  "dependencies": {
+    "pepr": "0.12.2"
+  },
+  "devDependencies": {
+    "typescript": "5.0.4"
+  }
+}
