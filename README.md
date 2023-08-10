@@ -1,6 +1,10 @@
 ## Big Bang Prometheus
 
-_This capability creates a ServiceMonitor and PrometheusRule for your app by adding two lines of code._
+_This capability creates a ServiceMonitor and PrometheusRule for your app by adding [three lines of yaml](https://github.com/cmwylie19/bb-prometheus/blob/5f8ff9c2055d669b793340e575323140f67f7ee5/README.md?plain=1#L100) to a service._
+
+1. Container to watch for the PromRule
+2. Prometheus scrape label
+3. Port that emits metrics
 
 _Run K3d for this demo!_
 
@@ -162,12 +166,15 @@ Port-Forward to [Prom-UI](http://localhost:9090/targets?search=) and check targe
 ```bash
 kubectl port-forward svc/prometheus-operated 9090 
 ```
+![targets.png](target.png)  
 
 Now, you can take down the deployment for blue to see the PrometheusRule trigger.
 
 ```bash
 kubectl scale deploy/blue -n blue --replicas=0
 ```
+
+![alerts.png](alerts.png)  
 
 The PrometheusRule could take up to 1 minute or 2 to fire.
 
