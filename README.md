@@ -1,6 +1,6 @@
 ## Big Bang Prometheus
 
-_This capability creates a ServiceMonitor and PrometheusRule for your app by adding [four labels](https://github.com/cmwylie19/bb-prometheus/blob/5f8ff9c2055d669b793340e575323140f67f7ee5/README.md?plain=1#L100) to a service._
+_This capability creates a ServiceMonitor and PrometheusRule for your app by adding [four labels](https://github.com/cmwylie19/bb-prometheus/blob/5f8ff9c2055d669b793340e575323140f67f7ee5/README.md?plain=1#L100) to a service. The `scheme=https` is meant for Big Bang._
 
 1. Container to watch for the PromRule
 2. Prometheus scrape label
