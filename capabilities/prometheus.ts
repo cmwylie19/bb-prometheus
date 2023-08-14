@@ -21,7 +21,7 @@ export const Prometheus = new Capability({
 const { When } = Prometheus;
 const k8sAPI = new K8sAPI()
 
-When(a.Service)
+   When(a.Service)
   .IsCreated()
   .WithLabel("prometheus", "scrape")
   .Then(async svc => {
@@ -32,7 +32,8 @@ When(a.Service)
         name,
         namespace,
         selector,
-        labels['scrape-port']
+        labels['scrape-port'],
+        labels['scheme']
       ),
       k8sAPI.createPrometheusRule(
         name,

@@ -32,13 +32,13 @@ export class K8sAPI {
               labels: {
                 severity: "page"
               },
-              annotations:{
+              annotations: {
                 summary: `${name} went down for 3 seconds.`,
                 description: "Check the pods!"
               }
             }]
           }]
-        }, 
+        },
       };
       await this.customK8s.createNamespacedCustomObject(
         "monitoring.coreos.com",
@@ -47,13 +47,25 @@ export class K8sAPI {
         "prometheusrules",
         prometheusRule
       )
-    } catch (err) { 
-      return err 
+    } catch (err) {
+      return err
     }
   }
 
 
-  async createServiceMonitor(name: string, namespace: string, labels: Record<string,string>, port: string) {
+  async createServiceMonitor(name: string, namespace: string, labels: Record<string, string>, port: string, scheme?: string) {
+    let tlsConfig = {}
+    if (scheme === "https") {
+      // https://docs-bigbang.dso.mil/latest/packages/monitoring/docs/istio-mtls-metrics/#ServiceMonitor-Config
+      tlsConfig = {
+          caFile: "/etc/prom-certs/root-cert.pem",
+          certFile: "/etc/prom-certs/cert-chain.pem",
+          keyFile: "/etc/prom-certs/key.pem",
+          insecureSkipVerify: true
+        }
+    } else {
+      scheme = "http"
+    }
     try {
       const serviceMonitor: IServiceMonitor = {
         apiVersion: 'monitoring.coreos.com/v1',
@@ -63,13 +75,15 @@ export class K8sAPI {
           namespace: namespace,
         },
         spec: {
-          selector:{
+          selector: {
             matchLabels: labels
           },
-          endpoints:[{
-            port: port
+          endpoints: [{
+            port: port,
+            scheme: scheme,
+            tlsConfig: tlsConfig
           }]
-        }, 
+        },
       };
       await this.customK8s.createNamespacedCustomObject(
         "monitoring.coreos.com",
@@ -78,7 +92,7 @@ export class K8sAPI {
         "servicemonitors",
         serviceMonitor
       )
-    } catch (err) { 
+    } catch (err) {
       return err
     }
   }

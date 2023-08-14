@@ -5,8 +5,15 @@ interface Endpoint {
     port: string;
     path?: string;
     interval?: string;
+    scheme?: string;
+    tlsConfig?: {
+      caFile?: string;
+      certFile?: string;
+      keyFile?: string;
+      insecureSkipVerify?: boolean;
+    };
   }
-  
+
   interface Selector {
     matchLabels: Record<string, string>;
   }

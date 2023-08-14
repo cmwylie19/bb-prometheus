@@ -1,10 +1,28 @@
 ## Big Bang Prometheus
 
-_This capability creates a ServiceMonitor and PrometheusRule for your app by adding [three lines of yaml](https://github.com/cmwylie19/bb-prometheus/blob/5f8ff9c2055d669b793340e575323140f67f7ee5/README.md?plain=1#L100) to a service._
+_This capability creates a ServiceMonitor and PrometheusRule for your app by adding [four labels](https://github.com/cmwylie19/bb-prometheus/blob/5f8ff9c2055d669b793340e575323140f67f7ee5/README.md?plain=1#L100) to a service._
 
 1. Container to watch for the PromRule
 2. Prometheus scrape label
-3. Port that emits metrics
+3. Port that emits metrics 
+4. scheme=https/http (optional)
+
+Example:
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: blue
+    version: v1
+    scrape-port: http # Capability label
+    prometheus: scrape # Capability label
+    container: blue # Capability label
+    scheme: http # Capability label, can be https
+  name: blue
+  namespace: blue
+  ```
+
 
 _Run K3d for this demo!_
 
@@ -104,6 +122,7 @@ metadata:
     scrape-port: http # Capability label
     prometheus: scrape # Capability label
     container: blue # Capability label
+    scheme: http # Capability label
   name: blue
   namespace: blue
 spec:
