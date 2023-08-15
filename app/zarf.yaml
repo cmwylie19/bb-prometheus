@@ -1,0 +1,18 @@
+kind: ZarfPackageConfig
+metadata:
+  name: mretrics-app-manifests
+  description: |
+    A Zarf package that deploys the blue metrics app 
+  version: 0.0.1
+components:
+  - name: app-manifests
+    description: Contains Kubernetes manifests
+    required: true
+    manifests:
+      - name: app-manifests
+        namespace: blue
+        files:
+          - app.yaml
+    # required to tell zarf where your image lives
+    images:
+      - docker.io/cmwylie19/metrics-demo

@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: blue
+  labels:
+    istio-injection: enabled
+spec: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: blue
+    version: v1
+    scrape-port: http # Capability label
+    prometheus: scrape # Capability label
+    container: blue # Capability label
+    scheme: http # Capability label
+  name: blue
+  namespace: blue
+spec:
+  ports:
+    - port: 9000
+      name: http
+  selector:
+    app: blue
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: blue
+    version: v1
+  name: blue
+  namespace: blue
+spec:
+  selector:
+    matchLabels:
+      app: blue
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: blue
+        version: v1
+    spec:
+      serviceAccountName: blue
+      containers:
+        - image: docker.io/cmwylie19/metrics-demo
+          name: blue
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 9000
+              name: http
+          imagePullPolicy: Always
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: blue
+  namespace: blue
